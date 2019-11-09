@@ -7,7 +7,7 @@ function get(id) {
   if (id) {
     query.where('p.id', id).first();
 
-    const promises = [query, this.getProjectActions(id)]; // [ projects, actions ]
+    const promises = [query, getProjectActions(id)]; // [ projects, actions ]
 
     return Promise.all(promises).then((results) => {
       const [project, actions] = results;
