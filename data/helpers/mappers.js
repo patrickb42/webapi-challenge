@@ -1,12 +1,5 @@
-module.exports = {
-  intToBoolean,
-  booleanToint,
-  projectToBody,
-  actionToBody,
-};
-
 function intToBoolean(int) {
-  return int === 1 ? true : false;
+  return int === 1;
 }
 
 function booleanToint(bool) {
@@ -20,7 +13,7 @@ function projectToBody(project) {
   };
 
   if (project.actions) {
-    result.actions = project.actions.map(action => ({
+    result.actions = project.actions.map((action) => ({
       ...action,
       completed: intToBoolean(action.completed),
     }));
@@ -35,3 +28,10 @@ function actionToBody(action) {
     completed: intToBoolean(action.completed),
   };
 }
+
+module.exports = {
+  intToBoolean,
+  booleanToint,
+  projectToBody,
+  actionToBody,
+};
