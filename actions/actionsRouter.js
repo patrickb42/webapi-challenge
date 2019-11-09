@@ -1,12 +1,12 @@
 const express = require('express');
 
-const { verifyProjectId, validateProject } = require('../middlware');
 const {
   get,
   insert,
   update,
   remove,
-} = require('../data/helpers/projectModel');
+} = require('../data/helpers/actionModel');
+const { verifyActionId, validateAction } = require('../middlware');
 
 const router = express.Router();
 
@@ -14,33 +14,33 @@ router.get('/', async (req, res) => {
   try {
     const result = await get();
     return (result === undefined)
-      ? res.status(404).json({ message: 'no projects found' })
+      ? res.status(404).json({ message: 'no actions found' })
       : res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({
       error: error.response,
-      message: 'Error getting projects',
+      message: 'Error getting actions',
     });
   }
 });
 
-router.get('/:id', verifyProjectId, async (req, res) => res.status(200).json(req.project));
+router.get('/:id', verifyActionId, async (req, res) => res.status(200).json(req.action));
 
-router.post('/', validateProject, async (req, res) => {
+router.post('/', validateAction, async (req, res) => {
   try {
-    const result = await insert(req.project);
+    const result = await insert(req.action);
     return (result === undefined)
-      ? res.status(500).json({ message: 'Error adding project' })
+      ? res.status(500).json({ message: 'Error adding action' })
       : res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({
       error: error.response,
-      message: 'Error adding project',
+      message: 'Error adding action',
     });
   }
 });
 
-router.put('/:id', verifyProjectId, validateProject, async (req, res) => {
+router.put('/:id', verifyActionId, validateAction, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await update(id, req.project);
